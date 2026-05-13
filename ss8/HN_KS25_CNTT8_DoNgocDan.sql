@@ -85,10 +85,10 @@ from employee
 order by salary desc
 limit 2;
 -- 4.5 GROUP BY & HAVING
-select e.emp_name ,count(dept_id) as 'số lượng nhân viên'
+select d.dept_name ,count(e.emp_id) as 'số lượng nhân viên'
 from employee e inner join department d on d.dept_id = e.dept_id
-GROUP BY dept_id
-having count(dept_id) >= 2;
+GROUP BY d.dept_id,d.dept_name
+having count(e.emp_id) >= 2;
 -- 4.6 GROUP BY & HAVING
 select emp_name 
 from employee
