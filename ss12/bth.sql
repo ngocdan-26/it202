@@ -19,7 +19,6 @@ CREATE TABLE posts (
 
     CONSTRAINT fk_posts_user
     FOREIGN KEY (user_id) REFERENCES users(user_id)
-    ON DELETE CASCADE
 );
 
 -- 3. BẢNG COMMENTS
@@ -30,13 +29,9 @@ CREATE TABLE comments (
     content TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT fk_comments_post
-    FOREIGN KEY (post_id) REFERENCES posts(post_id)
-    ON DELETE CASCADE,
+    FOREIGN KEY (post_id) REFERENCES posts(post_id),
 
-    CONSTRAINT fk_comments_user
     FOREIGN KEY (user_id) REFERENCES users(user_id)
-    ON DELETE CASCADE
 );
 
 -- 4. BẢNG FRIENDS
@@ -45,36 +40,18 @@ CREATE TABLE friends (
     friend_id INT NOT NULL,
     status VARCHAR(20) NOT NULL,
     PRIMARY KEY (user_id, friend_id),
-    
-    CONSTRAINT fk_friends_user 
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
-    ON DELETE CASCADE,
-
-    CONSTRAINT fk_friends_friend
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (friend_id) REFERENCES users(user_id)
-    ON DELETE CASCADE,
 
-    CONSTRAINT chk_friend_status
-    CHECK (status IN ('pending', 'accepted')),
-
-    CONSTRAINT chk_not_self_friend
-    CHECK (user_id <> friend_id)
 );
 
 -- 5. BẢNG LIKES
 CREATE TABLE likes (
     user_id INT NOT NULL,
     post_id INT NOT NULL,
-
     PRIMARY KEY (user_id, post_id),
-
-    CONSTRAINT fk_likes_user
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
-    ON DELETE CASCADE,
-
-    CONSTRAINT fk_likes_post
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (post_id) REFERENCES posts(post_id)
-    ON DELETE CASCADE
 );
 
 -- REQ-06: INDEX TỐI ƯU NEWSFEED
